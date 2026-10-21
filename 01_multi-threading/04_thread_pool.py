@@ -10,6 +10,7 @@ def initiate_sleep(seconds):
     return f"sleep ended in {seconds} seconds"
 
 
+# EXAMPLE 1
 # with ThreadPoolExecutor() as executor: --> This creates a pool of worker threads.
 # Instead of manually creating threads with: t1 = threading.Thread(...) t1.start() the pool manages the threads for you.
 # f is called Future object.
@@ -19,6 +20,7 @@ with ThreadPoolExecutor() as executor:
     f = executor.submit(initiate_sleep, 1)
     print(f.result())
 
+# EXAMPLE 2
 # In case we have a loop of Future objects, we can use as_completed.
 # as_completed() lets you process Future objects in the order they finish, rather than the order you submitted them.
 with ThreadPoolExecutor() as executor:
@@ -27,15 +29,18 @@ with ThreadPoolExecutor() as executor:
     for f in as_completed(f_objs):
         print(f.result())
 
+# EXAMPLE 3
 # Say we have random seconds we can do as below:
 with ThreadPoolExecutor() as executor:
     seconds = [1, 2, 3, 4, 5]
 
+    # EXAMPLE 3.1
     # We can do using this:
     f_objs = [executor.submit(initiate_sleep, sec) for sec in seconds]
     for f in as_completed(f_objs):
         print(f.result())
 
+    # EXAMPLE 3.2
     # We can use map as well.
     # We get the results directly. We didn't use the as_completed and f.result()
     results = executor.map(initiate_sleep, seconds)
